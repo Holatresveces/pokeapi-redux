@@ -1,20 +1,20 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchPokemon } from "./pokemonSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
 const PokemonsList = () => {
-  const pokemonListItems = useSelector(
+  const pokemonListItems = useAppSelector(
     (state) => state.pokemon.pokemonListItems
   );
 
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchPokemon());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="pokemon-list">

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const SinglePokemon = (props) => {
-  let { pokemonName } = useParams();
+const SinglePokemon = () => {
+  const { pokemonName } = useParams();
 
   const fetchSinglePokemon = async () => {
     const response = await axios.get(

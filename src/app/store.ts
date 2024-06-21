@@ -6,3 +6,7 @@ export const store = configureStore({
     pokemon: pokemonSlice,
   },
 });
+
+export type AppStore = typeof store;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
