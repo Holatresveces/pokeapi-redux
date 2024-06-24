@@ -43,14 +43,22 @@ export type PokemonData = {
 
 type PokemonDetailState = {
   data: PokemonData;
+  status: "idle" | "loading" | "success" | "failed";
+  error: string;
 };
 
 const initialState: PokemonDetailState = {
   data: null,
+  status: "idle",
+  error: "",
 };
 
-const getPokemonDetailDataByName = createNamedAsyncThunk("pokemonDetail/getPokemonDetailDataByName");
-const getPokemonDisplayDataByName = createNamedAsyncThunk("pokemonDisplay/getPokemonDisplayDataByName");
+const getPokemonDetailDataByName = createNamedAsyncThunk(
+  "pokemonDetail/getPokemonDetailDataByName"
+);
+const getPokemonDisplayDataByName = createNamedAsyncThunk(
+  "pokemonDisplay/getPokemonDisplayDataByName"
+);
 
 const pokemonDetailReducer = createNamedSlice(
   "pokemonDetail",
@@ -71,12 +79,22 @@ function createNamedSlice(
     initialState: { ...initialState },
     reducers: {},
     extraReducers: (builder) => {
-      builder.addCase(
-        thunk.fulfilled,
-        (state, action: PayloadAction<PokemonData>) => {
-          state.data = action.payload;
-        }
-      );
+      builder
+        .addCase(thunk.pending, (state) => {
+          state.status = "loading";
+        })
+        .addCase(
+          thunk.fulfilled,
+          (state, action: PayloadAction<PokemonData>) => {
+            state.data = action.payload;
+            state.status = "success";
+            state.error = "";
+          }
+        )
+        .addCase(thunk.rejected, (state, action: { payload: string }) => {
+          state.status = "failed";
+          state.error = action.payload;
+        });
     },
   });
 }

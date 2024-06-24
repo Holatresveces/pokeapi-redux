@@ -8,10 +8,14 @@ export const MAX_PAGE_NUMBER = Math.floor(MAX_ITEMS_COUNT / ITEMS_PER_PAGE);
 type PokemonListItem = { name: string; url: string };
 type PokemonListState = {
   data: Array<PokemonListItem>;
+  status: "idle" | "loading" | "success" | "failed";
+  error: string;
 };
 
 const initialState: PokemonListState = {
-  data: []
+  data: [],
+  status: "idle",
+  error: "",
 };
 
 const pokemonsSlice = createSlice({
@@ -19,19 +23,34 @@ const pokemonsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(
-      fetchPokemon.fulfilled,
-      (state, action: PayloadAction<Array<PokemonListItem>>) => {
-        state.data = action.payload;
-      }
-    );
+    builder
+      .addCase(fetchPokemon.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(
+        fetchPokemon.fulfilled,
+        (state, action: PayloadAction<Array<PokemonListItem>>) => {
+          state.status = "success";
+          state.data = action.payload;
+        }
+      )
+      .addCase(fetchPokemon.rejected, (state, action: { payload: string }) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
   },
 });
 
-export const fetchPokemon = createAsyncThunk(
-  "pokemonList/fetchPokemon",
-  async (page: number) => {
-    const limit = page < MAX_PAGE_NUMBER ? ITEMS_PER_PAGE : MAX_ITEMS_COUNT % ITEMS_PER_PAGE;
+export const fetchPokemon = createAsyncThunk<
+  Array<PokemonListItem>,
+  number,
+  { rejectValue: string }
+>("pokemonList/fetchPokemon", async (page: number, thunkApi) => {
+  try {
+    const limit =
+      page < MAX_PAGE_NUMBER
+        ? ITEMS_PER_PAGE
+        : MAX_ITEMS_COUNT % ITEMS_PER_PAGE;
 
     const response = await axios.get(
       `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${
@@ -40,7 +59,10 @@ export const fetchPokemon = createAsyncThunk(
     );
     const results = response.data.results;
     return results as Array<PokemonListItem>;
+  } catch (e) {
+    // TODO: Handle Axios errors
+    throw thunkApi.rejectWithValue("Error");
   }
-);
+});
 
 export default pokemonsSlice.reducer;

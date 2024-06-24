@@ -29,26 +29,34 @@ const PokemonsList = () => {
   return (
     <div>
       <div>
-        <PokemonDisplay pokemonData={pokemonDisplayData} />
+        {pokemonDisplayState?.status === "loading" ? (
+          "Loading"
+        ) : (
+          <PokemonDisplay pokemonData={pokemonDisplayData} />
+        )}
       </div>
-      <div className="pokemon-list">
-        <ul>
-          {pokemonListItems.map((pokemon) => {
-            return (
-              <li
-                onClick={() => {
-                  dispatch(getPokemonDisplayDataByName(pokemon?.name));
-                }}
-                onDoubleClick={() => {
-                  navigate(`/pokemon/${pokemon?.name}`);
-                }}
-                key={pokemon?.name}
-              >
-                {pokemon?.name}
-              </li>
-            );
-          })}
-        </ul>
+      <div>
+        {pokemonListState?.status === "loading" ? (
+          "Loading"
+        ) : (
+          <ul>
+            {pokemonListItems.map((pokemon) => {
+              return (
+                <li
+                  onClick={() => {
+                    dispatch(getPokemonDisplayDataByName(pokemon?.name));
+                  }}
+                  onDoubleClick={() => {
+                    navigate(`/pokemon/${pokemon?.name}`);
+                  }}
+                  key={pokemon?.name}
+                >
+                  {pokemon?.name}
+                </li>
+              );
+            })}
+          </ul>
+        )}
         <div>
           <button disabled={page < 1} onClick={() => setPage(page - 1)}>
             Previous
