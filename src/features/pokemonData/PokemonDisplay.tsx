@@ -1,15 +1,13 @@
 import logo from "../../assets/logo.png";
-import type { PokemonDetail } from "./pokemonDetailSlice";
+import type { PokemonData } from "./pokemonDataSlice";
 
 type PokemonDisplayProps = {
-  pokemonData: PokemonDetail;
+  pokemonData: PokemonData;
 };
 
 function PokemonDisplay({ pokemonData }: PokemonDisplayProps) {
   const pokemonName = pokemonData?.name;
-  const imageUrl =
-    pokemonData?.sprites?.versions?.["generation-iv"]?.["diamond-pearl"]
-      ?.front_default;
+  const imageUrl = pokemonData?.sprites?.versions?.["generation-iv"]?.["diamond-pearl"]?.front_default;
 
   return (
     <div>
