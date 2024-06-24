@@ -2,13 +2,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 type PokemonListItem = { name: string; url: string };
-
-type PokemonAppState = {
-  pokemonListItems: Array<PokemonListItem>;
+type PokemonListState = {
+  data: Array<PokemonListItem>;
 };
 
-const initialState: PokemonAppState = {
-  pokemonListItems: [],
+const initialState: PokemonListState = {
+  data: [],
 };
 
 const pokemonsSlice = createSlice({
@@ -19,7 +18,7 @@ const pokemonsSlice = createSlice({
     builder.addCase(
       fetchPokemon.fulfilled,
       (state, action: PayloadAction<Array<PokemonListItem>>) => {
-        state.pokemonListItems = action.payload;
+        state.data = action.payload;
       }
     );
   },
