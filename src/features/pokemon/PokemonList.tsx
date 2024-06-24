@@ -1,18 +1,20 @@
-import { useEffect } from "react";
-import { fetchPokemon } from "./pokemonListSlice";
+import { useState, useEffect } from "react";
+import { MAX_PAGE_NUMBER, fetchPokemon } from "./pokemonListSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
 const PokemonsList = () => {
-  const pokemonListItems = useAppSelector((state) => state.pokemonList.data);
+  const [page, setPage] = useState(0);
+  const pokemonListState = useAppSelector((state) => state.pokemonList);
+  const pokemonListItems = pokemonListState.data;
 
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchPokemon());
-  }, [dispatch]);
+    dispatch(fetchPokemon(page));
+  }, [dispatch, page]);
 
   return (
     <div className="pokemon-list">
@@ -30,6 +32,17 @@ const PokemonsList = () => {
           );
         })}
       </ul>
+      <div>
+        <button disabled={page < 1} onClick={() => setPage(page - 1)}>
+          Previous
+        </button>
+        <button
+          disabled={page >= MAX_PAGE_NUMBER}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
