@@ -5,7 +5,7 @@ type PokemonDetailState = {
   data: PokemonDetail;
 };
 
-type PokemonDetail = {
+export type PokemonDetail = {
   name: string;
   number: number;
   height: number;
@@ -49,7 +49,7 @@ const initialState: PokemonDetailState = {
 };
 
 const pokemonsSlice = createSlice({
-  name: "pokemon",
+  name: "pokemonDetail",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -60,7 +60,7 @@ const pokemonsSlice = createSlice({
 });
 
 export const getPokemonDataByName = createAsyncThunk(
-  "pokemon/getPokemonDataByName",
+  "pokemonDetail/getPokemonDataByName",
   async (name: string) => {
     console.log("inside getPokemonDataByName");
     const response = await axios.get(

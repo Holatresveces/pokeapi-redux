@@ -8,16 +8,14 @@ export const MAX_PAGE_NUMBER = Math.floor(MAX_ITEMS_COUNT / ITEMS_PER_PAGE);
 type PokemonListItem = { name: string; url: string };
 type PokemonListState = {
   data: Array<PokemonListItem>;
-  currentPage: number;
 };
 
 const initialState: PokemonListState = {
-  data: [],
-  currentPage: 0,
+  data: []
 };
 
 const pokemonsSlice = createSlice({
-  name: "pokemon",
+  name: "pokemonList",
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -31,7 +29,7 @@ const pokemonsSlice = createSlice({
 });
 
 export const fetchPokemon = createAsyncThunk(
-  "pokemon/fetchPokemon",
+  "pokemonList/fetchPokemon",
   async (page: number) => {
     const limit = page < MAX_PAGE_NUMBER ? ITEMS_PER_PAGE : MAX_ITEMS_COUNT % ITEMS_PER_PAGE;
 
