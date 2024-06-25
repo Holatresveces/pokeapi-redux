@@ -4,7 +4,7 @@ import type { PayloadAction, AsyncThunk } from "@reduxjs/toolkit";
 
 export type PokemonData = {
   name: string;
-  number: number;
+  id: number;
   height: number;
   weight: number;
   types: Array<{
