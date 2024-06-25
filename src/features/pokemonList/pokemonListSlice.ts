@@ -10,18 +10,24 @@ type PokemonListState = {
   data: Array<PokemonListItem>;
   status: "idle" | "loading" | "success" | "failed";
   error: string;
+  currentPage: number;
 };
 
 const initialState: PokemonListState = {
   data: [],
   status: "idle",
   error: "",
+  currentPage: 0,
 };
 
-const pokemonsSlice = createSlice({
+const pokemonListSlice = createSlice({
   name: "pokemonList",
   initialState,
-  reducers: {},
+  reducers: {
+    goToPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchPokemon.pending, (state) => {
@@ -65,4 +71,6 @@ export const fetchPokemon = createAsyncThunk<
   }
 });
 
-export default pokemonsSlice.reducer;
+export const { goToPage } = pokemonListSlice.actions;
+
+export default pokemonListSlice.reducer;

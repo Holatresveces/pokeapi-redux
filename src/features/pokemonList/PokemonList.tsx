@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { MAX_PAGE_NUMBER, fetchPokemon } from "./pokemonListSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
@@ -6,12 +6,13 @@ import PokemonDisplay from "../pokemonData/PokemonDisplay";
 import { getPokemonDisplayDataByName } from "../pokemonData/pokemonDataSlice";
 import pokeball from "../../assets/pokeball.png";
 import { capitalize } from "../../utils";
+import { goToPage } from "./pokemonListSlice";
 
 const PokemonsList = () => {
-  const [page, setPage] = useState(0);
   const pokemonListState = useAppSelector((state) => state?.pokemonList);
   const pokemonDisplayState = useAppSelector((state) => state?.pokemonDisplay);
 
+  const currentPage = pokemonListState?.currentPage;
   const pokemonListItems = pokemonListState?.data;
   const pokemonDisplayData = pokemonDisplayState?.data;
 
@@ -20,16 +21,16 @@ const PokemonsList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchPokemon(page));
-  }, [dispatch, page]);
+    dispatch(fetchPokemon(currentPage));
+  }, [dispatch, currentPage]);
 
   useEffect(() => {
     if (pokemonDisplayData) return;
     dispatch(getPokemonDisplayDataByName("pikachu"));
   }, [dispatch, pokemonDisplayData]);
 
-  const isPrevButtonDisabled = page < 1;
-  const isNextButtonDisabled = page >= MAX_PAGE_NUMBER;
+  const isPrevButtonDisabled = currentPage < 1;
+  const isNextButtonDisabled = currentPage >= MAX_PAGE_NUMBER;
 
   return (
     <div className="flex space-x-10">
@@ -68,8 +69,8 @@ const PokemonsList = () => {
           {!isPrevButtonDisabled && (
             <button
               className="border rounded-md p-3"
-              disabled={page < 1}
-              onClick={() => setPage(page - 1)}
+              disabled={currentPage < 1}
+              onClick={() => dispatch(goToPage(currentPage - 1))}
             >
               Previous
             </button>
@@ -77,8 +78,8 @@ const PokemonsList = () => {
           {!isNextButtonDisabled && (
             <button
               className="border rounded-md p-3"
-              disabled={page >= MAX_PAGE_NUMBER}
-              onClick={() => setPage(page + 1)}
+              disabled={currentPage >= MAX_PAGE_NUMBER}
+              onClick={() => dispatch(goToPage(currentPage + 1))}
             >
               Next
             </button>

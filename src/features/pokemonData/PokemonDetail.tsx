@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getPokemonDetailDataByName } from "./pokemonDataSlice";
 import PokemonDisplay from "./PokemonDisplay";
 import { capitalize } from "../../utils";
 
 const SinglePokemon = () => {
+  const navigate = useNavigate();
   const { pokemonName } = useParams();
   const pokemonDetailData = useAppSelector(
     (state) => state?.pokemonDetail?.data
@@ -28,7 +29,9 @@ const SinglePokemon = () => {
         <PokemonDisplay pokemonData={pokemonDetailData} />
       </div>
       <div className="w-2/3 h-screen overflow-y-scroll">
-        <button className="border rounded-md p-3">Go back</button>
+        <button className="border rounded-md p-3" onClick={() => navigate(-1)}>
+          Go back
+        </button>
         <div className="font-semibold mt-10 flex flex-col space-y-8">
           <div className="text-center">
             <div className="mb-4">Type</div>
