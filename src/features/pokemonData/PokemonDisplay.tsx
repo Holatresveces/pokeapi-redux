@@ -7,12 +7,14 @@ type PokemonDisplayProps = {
 
 function PokemonDisplay({ pokemonData }: PokemonDisplayProps) {
   const pokemonName = pokemonData?.name;
-  const imageUrl = pokemonData?.sprites?.versions?.["generation-iv"]?.["diamond-pearl"]?.front_default;
+  const imageUrl =
+    pokemonData?.sprites?.versions?.["generation-iv"]?.["diamond-pearl"]
+      ?.front_default;
 
   return (
-    <div>
-      <img src={logo} alt="PokéAPI Logo" />
-      <img src={imageUrl} alt={pokemonName} />
+    <div className="h-full flex flex-col items-center">
+      <img className="py-20" src={logo} alt="PokéAPI Logo" />
+      <img className="w-60 py-20" src={imageUrl} alt={pokemonName} />
     </div>
   );
 }

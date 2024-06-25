@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import PokemonDisplay from "../pokemonData/PokemonDisplay";
 import { getPokemonDisplayDataByName } from "../pokemonData/pokemonDataSlice";
+import pokeball from "../../assets/pokeball.png";
 
 const PokemonsList = () => {
   const [page, setPage] = useState(0);
@@ -26,23 +27,27 @@ const PokemonsList = () => {
     dispatch(getPokemonDisplayDataByName("pikachu"));
   }, [dispatch, pokemonDisplayData]);
 
+  const isPrevButtonDisabled = page < 1;
+  const isNextButtonDisabled = page >= MAX_PAGE_NUMBER;
+
   return (
-    <div>
-      <div>
+    <div className="flex space-x-10">
+      <div className="w-1/3 h-screen shadow-xl overflow-hidden">
         {pokemonDisplayState?.status === "loading" ? (
           "Loading"
         ) : (
           <PokemonDisplay pokemonData={pokemonDisplayData} />
         )}
       </div>
-      <div>
+      <div className="w-2/3 h-screen overflow-y-scroll">
         {pokemonListState?.status === "loading" ? (
           "Loading"
         ) : (
-          <ul>
+          <ol className="flex flex-col space-y-1 text-sm">
             {pokemonListItems.map((pokemon) => {
               return (
                 <li
+                  className="px-4 py-2 rounded-lg shadow flex items-center justify-between cursor-pointer"
                   onClick={() => {
                     dispatch(getPokemonDisplayDataByName(pokemon?.name));
                   }}
@@ -51,22 +56,32 @@ const PokemonsList = () => {
                   }}
                   key={pokemon?.name}
                 >
-                  {pokemon?.name}
+                  <span>{pokemon?.name}</span>
+                  <img className="w-4" src={pokeball} alt="Pokéball" />
                 </li>
               );
             })}
-          </ul>
+          </ol>
         )}
-        <div>
-          <button disabled={page < 1} onClick={() => setPage(page - 1)}>
-            Previous
-          </button>
-          <button
-            disabled={page >= MAX_PAGE_NUMBER}
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </button>
+        <div className="flex justify-center space-x-10 py-5">
+          {!isPrevButtonDisabled && (
+            <button
+              className="border rounded-md p-3"
+              disabled={page < 1}
+              onClick={() => setPage(page - 1)}
+            >
+              Previous
+            </button>
+          )}
+          {!isNextButtonDisabled && (
+            <button
+              className="border rounded-md p-3"
+              disabled={page >= MAX_PAGE_NUMBER}
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
     </div>
