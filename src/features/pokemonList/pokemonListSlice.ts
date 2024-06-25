@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const MAX_ITEMS_COUNT = 150;
-const ITEMS_PER_PAGE = 20;
+export const ITEMS_PER_PAGE = 20;
 export const MAX_PAGE_NUMBER = Math.floor(MAX_ITEMS_COUNT / ITEMS_PER_PAGE);
 
 type PokemonListItem = { name: string; url: string };

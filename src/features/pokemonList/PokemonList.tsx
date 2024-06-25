@@ -7,10 +7,14 @@ import { getPokemonDisplayDataByName } from "../pokemonData/pokemonDataSlice";
 import pokeball from "../../assets/pokeball.png";
 import { capitalize } from "../../utils";
 import { goToPage } from "./pokemonListSlice";
+import Skeleton from "../../components/Skeleton";
+import PokemonListSkeleton from "./PokemonListSkeleton";
+import PokemonDisplaySkeleton from "../pokemonData/PokemonDisplaySkeleton";
 
-const PokemonsList = () => {
-  const pokemonListState = useAppSelector((state) => state?.pokemonList);
-  const pokemonDisplayState = useAppSelector((state) => state?.pokemonDisplay);
+const PokemonList = () => {
+  const state = useAppSelector((state) => state);
+  const pokemonListState = state?.pokemonList;
+  const pokemonDisplayState = state?.pokemonDisplay;
 
   const currentPage = pokemonListState?.currentPage;
   const pokemonListItems = pokemonListState?.data;
@@ -35,16 +39,18 @@ const PokemonsList = () => {
   return (
     <div className="flex space-x-10">
       <div className="w-1/3 h-screen shadow-xl overflow-hidden">
-        {pokemonDisplayState?.status === "loading" ? (
-          "Loading"
-        ) : (
+        <Skeleton
+          on={pokemonDisplayState?.status === "loading"}
+          skeleton={PokemonDisplaySkeleton}
+        >
           <PokemonDisplay pokemonData={pokemonDisplayData} />
-        )}
+        </Skeleton>
       </div>
       <div className="w-2/3 h-screen overflow-y-scroll">
-        {pokemonListState?.status === "loading" ? (
-          "Loading"
-        ) : (
+        <Skeleton
+          on={pokemonListState?.status === "loading"}
+          skeleton={PokemonListSkeleton}
+        >
           <ol className="flex flex-col space-y-1 text-sm">
             {pokemonListItems.map((pokemon) => {
               return (
@@ -64,30 +70,30 @@ const PokemonsList = () => {
               );
             })}
           </ol>
-        )}
-        <div className="flex justify-center space-x-10 py-5">
-          {!isPrevButtonDisabled && (
-            <button
-              className="border rounded-md p-3"
-              disabled={currentPage < 1}
-              onClick={() => dispatch(goToPage(currentPage - 1))}
-            >
-              Previous
-            </button>
-          )}
-          {!isNextButtonDisabled && (
-            <button
-              className="border rounded-md p-3"
-              disabled={currentPage >= MAX_PAGE_NUMBER}
-              onClick={() => dispatch(goToPage(currentPage + 1))}
-            >
-              Next
-            </button>
-          )}
-        </div>
+          <div className="flex justify-center space-x-10 py-5">
+            {!isPrevButtonDisabled && (
+              <button
+                className="border rounded-md p-3"
+                disabled={currentPage < 1}
+                onClick={() => dispatch(goToPage(currentPage - 1))}
+              >
+                Previous
+              </button>
+            )}
+            {!isNextButtonDisabled && (
+              <button
+                className="border rounded-md p-3"
+                disabled={currentPage >= MAX_PAGE_NUMBER}
+                onClick={() => dispatch(goToPage(currentPage + 1))}
+              >
+                Next
+              </button>
+            )}
+          </div>
+        </Skeleton>
       </div>
     </div>
   );
 };
 
-export default PokemonsList;
+export default PokemonList;

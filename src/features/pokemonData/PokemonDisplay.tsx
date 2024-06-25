@@ -14,7 +14,7 @@ function PokemonDisplay({ pokemonData }: PokemonDisplayProps) {
   return (
     <div className="h-full flex flex-col items-center">
       <img className="py-20" src={logo} alt="PokéAPI Logo" />
-      <img className="w-60 py-20" src={imageUrl} alt={pokemonName} />
+      <img className="w-60 my-20" src={imageUrl} alt={pokemonName} />
     </div>
   );
 }
