@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import PokemonDisplay from "../pokemonData/PokemonDisplay";
 import { getPokemonDisplayDataByName } from "../pokemonData/pokemonDataSlice";
 import pokeball from "../../assets/pokeball.png";
+import { capitalize } from "../../utils";
 
 const PokemonsList = () => {
   const [page, setPage] = useState(0);
@@ -56,7 +57,7 @@ const PokemonsList = () => {
                   }}
                   key={pokemon?.name}
                 >
-                  <span>{pokemon?.name}</span>
+                  <span>{capitalize(pokemon?.name)}</span>
                   <img className="w-4" src={pokeball} alt="Pokéball" />
                 </li>
               );
