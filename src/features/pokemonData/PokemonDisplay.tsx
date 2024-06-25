@@ -12,9 +12,9 @@ function PokemonDisplay({ pokemonData }: PokemonDisplayProps) {
       ?.front_default;
 
   return (
-    <div className="h-full flex flex-col items-center">
-      <img className="py-20" src={logo} alt="PokéAPI Logo" />
-      <img className="w-60 my-20" src={imageUrl} alt={pokemonName} />
+    <div className="h-full flex md:flex-col justify-center items-center">
+      <img className="md:py-20" src={logo} alt="PokéAPI Logo" />
+      <img className="w-40 md:w-60 md:my-20" src={imageUrl} alt={pokemonName} />
     </div>
   );
 }

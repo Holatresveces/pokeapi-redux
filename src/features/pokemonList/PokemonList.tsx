@@ -37,8 +37,8 @@ const PokemonList = () => {
   const isNextButtonDisabled = currentPage >= MAX_PAGE_NUMBER;
 
   return (
-    <div className="flex space-x-10">
-      <div className="w-1/3 h-screen shadow-xl overflow-hidden">
+    <div className="md:flex md:space-x-10">
+      <div className="md:w-1/3 md:h-screen md:shadow-xl md:overflow-hidden">
         <Skeleton
           on={pokemonDisplayState?.status === "loading"}
           skeleton={PokemonDisplaySkeleton}
@@ -46,7 +46,7 @@ const PokemonList = () => {
           <PokemonDisplay pokemonData={pokemonDisplayData} />
         </Skeleton>
       </div>
-      <div className="w-2/3 h-screen overflow-y-scroll">
+      <div className="md:w-2/3 md:h-screen md:overflow-y-scroll">
         <Skeleton
           on={pokemonListState?.status === "loading"}
           skeleton={PokemonListSkeleton}

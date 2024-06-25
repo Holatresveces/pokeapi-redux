@@ -27,8 +27,8 @@ const SinglePokemon = () => {
   }, [dispatch, pokemonName]);
 
   return (
-    <div className="flex space-x-10">
-      <div className="w-1/3 h-screen shadow-xl overflow-hidden">
+    <div className="md:flex md:space-x-10">
+      <div className="md:w-1/3 md:h-screen md:shadow-xl md:overflow-hidden">
         <Skeleton
           on={pokemonDetailState?.status === "loading"}
           skeleton={PokemonDisplaySkeleton}
@@ -36,7 +36,7 @@ const SinglePokemon = () => {
           <PokemonDisplay pokemonData={pokemonDetailData} />
         </Skeleton>
       </div>
-      <div className="w-2/3 h-screen overflow-y-scroll">
+      <div className="md:w-2/3 md:h-screen md:overflow-y-scroll">
         <Skeleton
           on={pokemonDetailState?.status === "loading"}
           skeleton={PokemonDetailSkeleton}
@@ -58,14 +58,16 @@ const SinglePokemon = () => {
                 })}
               </div>
             </div>
-            <div className="flex space-x-16 justify-center">
-              <span>Number: {pokemonDetailData?.id}</span>
-              <span>Name: {capitalize(pokemonDetailData?.name)}</span>
-              <span>Height: {pokemonDetailData?.height}</span>
-              <span>Weight: {pokemonDetailData?.weight}</span>
+            <div className="flex justify-center flex-wrap">
+              <div className="px-8">Number: {pokemonDetailData?.id}</div>
+              <div className="px-8">
+                Name: {capitalize(pokemonDetailData?.name)}
+              </div>
+              <div className="px-8">Height: {pokemonDetailData?.height}</div>
+              <div className="px-8">Weight: {pokemonDetailData?.weight}</div>
             </div>
-            <div className="flex">
-              <div className="w-1/2">
+            <div className="flex flex-wrap">
+              <div className="md:w-1/2 flex-1 mb-8">
                 <span>Stats</span>
                 {stats?.map((statData) => {
                   return (
@@ -89,7 +91,7 @@ const SinglePokemon = () => {
                   );
                 })}
               </div>
-              <div className="w-1/2 text-center">
+              <div className="md:w-1/2 flex-1 flex flex-col items-center text-center">
                 <span>Abilities</span>
                 <ul>
                   {abilities?.map((abilityData) => {
