@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 const MAX_ITEMS_COUNT = 150;
 export const ITEMS_PER_PAGE = 20;
