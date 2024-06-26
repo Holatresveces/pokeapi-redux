@@ -51,44 +51,46 @@ const PokemonList = () => {
           on={pokemonListState?.status === "loading"}
           skeleton={PokemonListSkeleton}
         >
-          <ol className="flex flex-col space-y-1 text-sm">
-            {pokemonListItems.map((pokemon) => {
-              return (
-                <li
-                  className="px-4 py-2 rounded-lg shadow flex items-center justify-between cursor-pointer"
-                  onClick={() => {
-                    dispatch(getPokemonDisplayDataByName(pokemon?.name));
-                  }}
-                  onDoubleClick={() => {
-                    navigate(`/pokemon/${pokemon?.name}`);
-                  }}
-                  key={pokemon?.name}
+          <div>
+            <ol className="flex flex-col space-y-1 text-sm">
+              {pokemonListItems?.map((pokemon) => {
+                return (
+                  <li
+                    className="px-4 py-2 rounded-lg shadow flex items-center justify-between cursor-pointer"
+                    onClick={() => {
+                      dispatch(getPokemonDisplayDataByName(pokemon?.name));
+                    }}
+                    onDoubleClick={() => {
+                      navigate(`/pokemon/${pokemon?.name}`);
+                    }}
+                    key={pokemon?.name}
+                  >
+                    <span>{capitalize(pokemon?.name)}</span>
+                    <img className="w-4" src={pokeball} alt="Pokéball" />
+                  </li>
+                );
+              })}
+            </ol>
+            <div className="flex justify-center space-x-10 py-5">
+              {!isPrevButtonDisabled && (
+                <button
+                  className="border rounded-md p-3"
+                  disabled={currentPage < 1}
+                  onClick={() => dispatch(goToPage(currentPage - 1))}
                 >
-                  <span>{capitalize(pokemon?.name)}</span>
-                  <img className="w-4" src={pokeball} alt="Pokéball" />
-                </li>
-              );
-            })}
-          </ol>
-          <div className="flex justify-center space-x-10 py-5">
-            {!isPrevButtonDisabled && (
-              <button
-                className="border rounded-md p-3"
-                disabled={currentPage < 1}
-                onClick={() => dispatch(goToPage(currentPage - 1))}
-              >
-                Previous
-              </button>
-            )}
-            {!isNextButtonDisabled && (
-              <button
-                className="border rounded-md p-3"
-                disabled={currentPage >= MAX_PAGE_NUMBER}
-                onClick={() => dispatch(goToPage(currentPage + 1))}
-              >
-                Next
-              </button>
-            )}
+                  Previous
+                </button>
+              )}
+              {!isNextButtonDisabled && (
+                <button
+                  className="border rounded-md p-3"
+                  disabled={currentPage >= MAX_PAGE_NUMBER}
+                  onClick={() => dispatch(goToPage(currentPage + 1))}
+                >
+                  Next
+                </button>
+              )}
+            </div>
           </div>
         </Skeleton>
       </div>
