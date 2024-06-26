@@ -50,6 +50,8 @@ Make sure you have the following installed:
 - Typescript
 - React
 - React Redux
+- Redux Toolkit
+- React Router DOM
 - TailwindCSS
 - PokéAPI
 - Axios
